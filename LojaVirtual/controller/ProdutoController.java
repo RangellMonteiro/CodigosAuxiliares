@@ -1,30 +1,50 @@
 package controller;
 
 import model.Produto;
-
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class ProdutoController {
-    private ArrayList<Produto> produtos;
+    private List<Produto> produtos = new ArrayList<>();
 
-    public ProdutoController() {
-        this.produtos = new ArrayList<>();
-        // Adicionando produtos para teste
-        produtos.add(new Produto("001", "Produto 1", 10, 50.0));
-        produtos.add(new Produto("002", "Produto 2", 5, 30.0));
+    public void cadastrarProduto(Scanner scanner) {
+        System.out.print("Digite o Codigo do produto: ");
+        String codigo = scanner.nextLine();
+
+        System.out.print("Digite o nome do produto: ");
+        String nome = scanner.nextLine();
+
+        System.out.print("Digite a quantidade do produto: ");
+        int quantidade = Integer.parseInt(scanner.nextLine());
+
+        System.out.println("Digite o preço do produto:");
+        double preco = scanner.nextDouble();
+
+        Produto produto = new Produto(codigo, nome, quantidade, preco);
+        produtos.add(produto);
+
+        System.out.println("Produto cadastrado com sucesso!");
     }
 
-    public void cadastrarProduto(String codigo, String nome, int quantidade, double preco) {
-        produtos.add(new Produto(codigo, nome, quantidade, preco));
-    }
+    public void editarProduto(Scanner scanner) {
+        System.out.print("Digite o código do produto que deseja editar: ");
+        String codigo = scanner.nextLine();
 
-    public void editarProduto(String codigo, String nome, int quantidade, double preco) {
-        for (Produto produto : produtos) {
-            if (produto.getCodigo().equals(codigo)) {
-                produto.setQuantidade(quantidade);
-                // Não há método set para o nome e preço, então seria necessário criar.
-                return;
-            }
+        Produto produto = buscarProdutoPorCodigo(codigo);
+
+        if (produto != null) {
+            System.out.print("Digite o novo nome do produto (atual: " + produto.getNome() + "): ");
+            String novoNome = scanner.nextLine();
+            System.out.print("Digite a nova quantidade do produto (atual: " + produto.getQuantidade() + "): ");
+            int novaQuantidade = Integer.parseInt(scanner.nextLine());
+
+            // Atualiza os detalhes do produto
+            produto.setNome(novoNome);
+            produto.setQuantidade(novaQuantidade);
+            System.out.println("Produto atualizado com sucesso!");
+        } else {
+            System.out.println("Produto não encontrado.");
         }
     }
 
@@ -34,6 +54,13 @@ public class ProdutoController {
                 return produto;
             }
         }
-        return null;
+        return null; // Retorna null se o produto não for encontrado
+    }
+
+    public void listarProdutos() {
+        System.out.println("=== Lista de Produtos ===");
+        for (Produto produto : produtos) {
+            System.out.println(produto);
+        }
     }
 }

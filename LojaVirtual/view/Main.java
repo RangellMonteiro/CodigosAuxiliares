@@ -3,13 +3,13 @@ package view;
 import controller.UsuarioController;
 import controller.CarrinhoController;
 import controller.PedidoController;
+import controller.ProdutoController; // Importando o ProdutoController
 import model.Usuario;
 import model.Cliente;
+import model.Administrador; // Importando o Administrador
 import view.LoginView;
 import view.ClienteView;
 import view.AdminView;
-import model.*;
-
 import java.util.Scanner;
 
 public class Main {
@@ -18,6 +18,7 @@ public class Main {
         UsuarioController usuarioController = new UsuarioController();
         CarrinhoController carrinhoController = new CarrinhoController();
         PedidoController pedidoController = new PedidoController();
+        ProdutoController produtoController = new ProdutoController(); // Instanciando o ProdutoController
 
         LoginView loginView = new LoginView();
         String email = loginView.getEmail(scanner);
@@ -54,9 +55,10 @@ public class Main {
                     switch (opcao) {
                         case 1:
                             // Cadastrar Produto
+                            produtoController.cadastrarProduto(scanner); // Chamada para cadastrar produto
                             break;
                         case 2:
-                            // Editar Produto
+                            produtoController.editarProduto(scanner); // Chamada para editar produto
                             break;
                     }
                 } while (opcao != 3);
